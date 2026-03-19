@@ -1,0 +1,46 @@
+# Ignorar JARs
+*.jar
+
+# Logs
+logs/
+*.log
+
+# PIDs
+pids/
+
+# Archivos temporales
+*.tmp
+*.bak
+
+# Archivos de compilación de Java/Maven/Gradle
+target/
+build/
+
+# Archivos de sistema
+.DS_Store
+# Keycloak H2 database
+data/keycloak/h2/
+*.db
+*.lock.db
+*.trace.db
+*.txt
+data/
+# Angular
+# Angular
+angular/biblioteca-frontend/node_modules/
+angular/biblioteca-frontend/dist/
+angular/biblioteca-frontend/.angular/
+angular/biblioteca-frontend/.vite/
+angular/biblioteca-frontend/tmp/
+angular/biblioteca-frontend/temp/
+angular/biblioteca-frontend/server.ts
+angular/biblioteca-frontend/main.server.ts
+
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

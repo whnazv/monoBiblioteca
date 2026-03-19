@@ -1,0 +1,337 @@
+openapi: 3.0.1
+info:
+  title: API Academia Almaerea
+  description: Documentación automática con Swagger (springdoc-openapi)
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+security:
+- bearerAuth: []
+paths:
+  /books/{id}:
+    get:
+      tags:
+      - book-controller
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BookDto'
+    put:
+      tags:
+      - book-controller
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BookDto'
+    delete:
+      tags:
+      - book-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /sales:
+    post:
+      tags:
+      - sale-controller
+      operationId: createSale
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaleDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SaleDto'
+  /books:
+    get:
+      tags:
+      - book-controller
+      operationId: getAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookDto'
+    post:
+      tags:
+      - book-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BookDto'
+  /books/{id}/image:
+    post:
+      tags:
+      - book-controller
+      operationId: uploadImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /auth/register:
+    post:
+      tags:
+      - auth-controller
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /auth/login:
+    post:
+      tags:
+      - auth-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /users:
+    get:
+      tags:
+      - user-controller
+      operationId: getAllUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+  /users/{id}:
+    get:
+      tags:
+      - user-controller
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /users/username/{username}:
+    get:
+      tags:
+      - user-controller
+      operationId: getByUsername
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /users/email/{email}:
+    get:
+      tags:
+      - user-controller
+      operationId: getByEmail
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+components:
+  schemas:
+    BookDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        author:
+          type: string
+        isbn:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+          format: int32
+        imageUrl:
+          type: string
+        description:
+          type: string
+    SaleDto:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaleItemDto'
+    SaleItemDto:
+      type: object
+      properties:
+        bookId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int32
+        unitPrice:
+          type: number
+    UserRegisterDto:
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+    UserLoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
